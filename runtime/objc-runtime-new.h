@@ -560,10 +560,10 @@ struct class_ro_t {
 
     const uint8_t * ivarLayout;
     
-    const char * name;
+    const char * name;                  //类名
     method_list_t * baseMethodList;
     protocol_list_t * baseProtocols;
-    const ivar_list_t * ivars;
+    const ivar_list_t * ivars;       //成员变量列表
 
     const uint8_t * weakIvarLayout;
     property_list_t *baseProperties;
@@ -822,17 +822,18 @@ class protocol_array_t :
     }
 };
 
-
+//rw表示read and write
 struct class_rw_t {
     // Be warned that Symbolication knows the layout of this structure.
     uint32_t flags;
     uint32_t version;
-
+    
+    //ro 表示 readonly
     const class_ro_t *ro;
 
-    method_array_t methods;
-    property_array_t properties;
-    protocol_array_t protocols;
+    method_array_t methods;         //方法列表
+    property_array_t properties;    //属性列表
+    protocol_array_t protocols;     //协议列表
 
     Class firstSubclass;
     Class nextSiblingClass;
@@ -1110,12 +1111,13 @@ public:
 
 struct objc_class : objc_object {
     // Class ISA;
-    Class superclass;
+    Class superclass;          //指向父类
     cache_t cache;             // formerly cache pointer and vtable
     class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
 
-    class_rw_t *data() { 
-        return bits.data();
+    class_rw_t *data() {
+        class_rw_t *temp = bits.data();
+        return temp;
     }
     void setData(class_rw_t *newData) {
         bits.setData(newData);
@@ -1283,8 +1285,15 @@ struct objc_class : objc_object {
 
     // NOT identical to this->ISA when this is a metaclass
     Class getMeta() {
-        if (isMetaClass()) return (Class)this;
-        else return this->ISA();
+        struct objc_class *temp = nil;
+        if (isMetaClass()) {
+            temp = (struct objc_class *)this;
+            
+        }
+        else{
+            temp =(struct objc_class *) this->ISA();
+        }
+        return (Class)temp;
     }
 
     bool isRootClass() {

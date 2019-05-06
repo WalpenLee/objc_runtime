@@ -76,6 +76,7 @@ OBJC_EXPORT
 - (id)copy;
 - (id)mutableCopy;
 
+//OBJC_ARC_UNAVAILABLE: unavailable with -fobjc-arc
 + (id)copyWithZone:(struct _NSZone *)zone OBJC_ARC_UNAVAILABLE;
 + (id)mutableCopyWithZone:(struct _NSZone *)zone OBJC_ARC_UNAVAILABLE;
 
@@ -85,17 +86,20 @@ OBJC_EXPORT
 + (IMP)instanceMethodForSelector:(SEL)aSelector;
 - (void)doesNotRecognizeSelector:(SEL)aSelector;
 
+//OBJC_SWIFT_UNAVAILABLE: unavailable in Swift
 - (id)forwardingTargetForSelector:(SEL)aSelector OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
 - (void)forwardInvocation:(NSInvocation *)anInvocation OBJC_SWIFT_UNAVAILABLE("");
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector OBJC_SWIFT_UNAVAILABLE("");
 
 + (NSMethodSignature *)instanceMethodSignatureForSelector:(SEL)aSelector OBJC_SWIFT_UNAVAILABLE("");
 
+//UNAVAILABLE_ATTRIBUTE 告知方法失效
 - (BOOL)allowsWeakReference UNAVAILABLE_ATTRIBUTE;
 - (BOOL)retainWeakReference UNAVAILABLE_ATTRIBUTE;
 
 + (BOOL)isSubclassOfClass:(Class)aClass;
 
+//OBJC_AVAILABLE 表示这个这个API在哪个系统哪个版可用。
 + (BOOL)resolveClassMethod:(SEL)sel OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
 + (BOOL)resolveInstanceMethod:(SEL)sel OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0, 2.0);
 

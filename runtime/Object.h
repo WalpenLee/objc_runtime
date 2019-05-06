@@ -43,6 +43,7 @@ __WATCHOS_UNAVAILABLE __BRIDGEOS_UNAVAILABLE
 OBJC_ROOT_CLASS
 @interface Object
 {
+    //指向 struct objc_class
 	Class isa;	/* A pointer to the instance's class structure */
 }
 
